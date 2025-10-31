@@ -68,26 +68,25 @@ EXAMPLES = {
     "関数": "例: 関数 あいさつ(): 表示('こんにちは')",
 }
 
-# 日本語→Pythonコード変換
-def translate(jp_code: str) -> str:
-    for jp in sorted(JP_TO_PY.keys(), key=len, reverse=True):
-        jp_code = jp_code.replace(jp, JP_TO_PY[jp])
-    return jp_code
-
-
+# --- 日本語コード実行 + エラー翻訳 ---
 def run_japanese_code(jp_code: str) -> str:
     py_code = translate(jp_code)
     buffer = io.StringIO()
     sys_stdout = sys.stdout
     sys.stdout = buffer
+
     try:
         exec(py_code, {})
     except Exception as e:
-        return f"⚠️ エラー: {e}"
+        sys.stdout = sys_stdout
+        err_type = type(e).__name__
+        jp_message = error_messages.get(err_type, f"不明なエラーが発生しました ({err_type})")
+        detail = str(e)
+        return f"⚠️ {jp_message}\n\n💬 詳細: {detail}"
     finally:
         sys.stdout = sys_stdout
-    return buffer.getvalue()
 
+    return buffer.getvalue()
 
 # 実行ページ
 @app.route("/", methods=["GET", "POST"])
@@ -235,6 +234,7 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
 
 
