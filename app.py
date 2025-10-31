@@ -116,7 +116,7 @@ def table():
         """
         for jp, py in JP_TO_PY.items()
     )
-    return render_template_string(HTML_TABLE, rows=table_rows, examples=EXAMPLES)
+    return render_template_string(HTML_TABLE, rows=table_rows, examples=EXAMPLES, escape=False)
 
 
 # 実行ページHTML
@@ -234,6 +234,7 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
 
 
