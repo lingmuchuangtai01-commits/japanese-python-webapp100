@@ -68,6 +68,14 @@ EXAMPLES = {
     "関数": "例: 関数 あいさつ(): 表示('こんにちは')",
 }
 
+# --- 日本語 → Python 変換関数 ---
+def translate(jp_code: str) -> str:
+    """日本語コードをPythonコードに変換"""
+    py_code = jp_code
+    for jp, py in JP_TO_PY.items():
+        py_code = py_code.replace(jp, py)
+    return py_code
+
 # --- 日本語コード実行 + エラー翻訳 ---
 def run_japanese_code(jp_code: str) -> str:
     py_code = translate(jp_code)
@@ -234,6 +242,7 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
 
 
