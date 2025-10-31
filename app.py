@@ -146,10 +146,10 @@ HTML_MAIN = """
   }
 
   .container {
-    width: 95%;
-    max-width: 500px;
+    width: 90%;
+    max-width: 400px;
     background-color: #fff;
-    margin-top: 20px;
+    margin-top: 30px;
     padding: 15px;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -159,103 +159,41 @@ HTML_MAIN = """
     text-align: center;
     font-size: 20px;
     color: #333;
-    margin-bottom: 10px;
   }
 
-  a {
-    display: block;
-    text-align: center;
-    color: #007bff;
-    text-decoration: none;
-    margin-bottom: 10px;
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
-
-  input[type="text"] {
+  textarea {
     width: 100%;
+    height: 200px;
     padding: 10px;
     font-size: 14px;
-    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 8px;
+    resize: vertical;
     box-sizing: border-box;
   }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  }
-
-  th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-  }
-
-  th {
-    background: #f5f5f5;
-    font-weight: bold;
-  }
-
   button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
     border: none;
-    padding: 6px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 13px;
-    margin: 2px;
-  }
-
-  .copy-btn {
-    background: #4CAF50;
-    color: white;
-  }
-
-  .example-btn {
-    background: #007bff;
-    color: white;
-  }
-
-  #exampleBox {
-    display: none;
-    background: #eef;
-    padding: 15px;
-    margin-top: 15px;
     border-radius: 8px;
-    border-left: 4px solid #007bff;
-    font-size: 14px;
+    margin-top: 10px;
   }
 
-  /* スマホ対応 */
-  @media (max-width: 600px) {
-    .container {
-      width: 100%;
-      border-radius: 0;
-      margin-top: 0;
-      box-shadow: none;
-    }
+  button:hover {
+    background-color: #0056b3;
+  }
 
-    table, th, td {
-      font-size: 12px;
-      padding: 6px;
-    }
-
-    button {
-      padding: 4px 8px;
-      font-size: 12px;
-    }
-
-    #exampleBox {
-      font-size: 13px;
-    }
+  .result-box {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #fafafa;
+    border-radius: 8px;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   }
 </style>
 </head>
@@ -392,6 +330,7 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
 
 
