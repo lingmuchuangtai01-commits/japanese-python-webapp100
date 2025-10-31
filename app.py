@@ -144,14 +144,42 @@ HTML_TABLE = """
 <title>対応表</title>
 <style>
 body { font-family: "Segoe UI", sans-serif; margin: 20px; background: #fafafa; }
-table { width: 100%; border-collapse: collapse; }
-th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
-th { background: #f0f0f0; }
-input { width: 100%; padding: 8px; margin-bottom: 10px; }
-button { border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; }
+h1 { text-align: center; }
+table { width: 100%; border-collapse: collapse; margin-top: 10px; background: white; border-radius: 8px; overflow: hidden; }
+th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+th { background: #f0f0f0; font-weight: bold; }
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+button {
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 2px;
+}
 .copy-btn { background: #4CAF50; color: white; }
 .example-btn { background: #007bff; color: white; }
-#exampleBox { display: none; background: #eef; padding: 10px; margin-top: 15px; border-radius: 8px; }
+#exampleBox {
+  display: none;
+  background: #eef;
+  padding: 15px;
+  margin-top: 20px;
+  border-radius: 8px;
+  border-left: 4px solid #007bff;
+  font-size: 16px;
+}
+a { text-decoration: none; color: #007bff; }
+@media (max-width: 600px) {
+  th, td { font-size: 14px; padding: 6px; }
+  button { padding: 5px 8px; font-size: 12px; }
+}
 </style>
 <script>
 function copyText(text) {
@@ -162,7 +190,8 @@ function showExample(key) {
   const examples = {{ examples | tojson }};
   const box = document.getElementById('exampleBox');
   box.style.display = 'block';
-  box.innerHTML = examples[key] || 'この語の例はまだ登録されていません。';
+  box.innerHTML = '<b>' + key + '</b><br>' + (examples[key] || 'この語の例はまだ登録されていません。');
+  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 }
 function filterTable() {
   let input = document.getElementById("search").value.toLowerCase();
@@ -175,9 +204,9 @@ function filterTable() {
 </script>
 </head>
 <body>
-<h1>📘 日本語→Python 対応表</h1>
-<p><a href="/">← 実行画面に戻る</a></p>
-<input type="text" id="search" onkeyup="filterTable()" placeholder="検索 (例: 表示)">
+<h1>📘 日本語 → Python 対応表</h1>
+<p style="text-align:center;"><a href="/">← 実行画面に戻る</a></p>
+<input type="text" id="search" onkeyup="filterTable()" placeholder="🔍 検索 (例: 表示)">
 <table>
 <tr><th>日本語</th><th>Python</th><th>操作</th></tr>
 {{ rows }}
@@ -191,6 +220,7 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
 
 
