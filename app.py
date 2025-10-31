@@ -146,10 +146,10 @@ HTML_MAIN = """
   }
 
   .container {
-    width: 90%;
-    max-width: 400px;
+    width: 95%;
+    max-width: 500px;
     background-color: #fff;
-    margin-top: 30px;
+    margin-top: 20px;
     padding: 15px;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -159,56 +159,116 @@ HTML_MAIN = """
     text-align: center;
     font-size: 20px;
     color: #333;
+    margin-bottom: 10px;
   }
 
-  textarea {
+  a {
+    display: block;
+    text-align: center;
+    color: #007bff;
+    text-decoration: none;
+    margin-bottom: 10px;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  input[type="text"] {
     width: 100%;
-    height: 200px;
     padding: 10px;
     font-size: 14px;
+    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    resize: vertical;
     box-sizing: border-box;
   }
 
-  button {
+  table {
     width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    margin-top: 10px;
-  }
-
-  button:hover {
-    background-color: #0056b3;
-  }
-
-  .result-box {
-    margin-top: 15px;
-    padding: 10px;
-    background-color: #fafafa;
-    border-radius: 8px;
+    border-collapse: collapse;
     font-size: 14px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+
+  th {
+    background: #f5f5f5;
+    font-weight: bold;
+  }
+
+  button {
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    margin: 2px;
+  }
+
+  .copy-btn {
+    background: #4CAF50;
+    color: white;
+  }
+
+  .example-btn {
+    background: #007bff;
+    color: white;
+  }
+
+  #exampleBox {
+    display: none;
+    background: #eef;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+    font-size: 14px;
+  }
+
+  /* スマホ対応 */
+  @media (max-width: 600px) {
+    .container {
+      width: 100%;
+      border-radius: 0;
+      margin-top: 0;
+      box-shadow: none;
+    }
+
+    table, th, td {
+      font-size: 12px;
+      padding: 6px;
+    }
+
+    button {
+      padding: 4px 8px;
+      font-size: 12px;
+    }
+
+    #exampleBox {
+      font-size: 13px;
+    }
   }
 </style>
 </head>
 <body>
-<h1>🐍 日本語Python 実行ページ</h1>
-<p><a href="/table">👉 対応表を見る</a></p>
-<form method="post">
-<textarea name="code">{{ code or '' }}</textarea>
-<button type="submit">▶ 実行</button>
-</form>
-<h3>結果</h3>
-<pre>{{ result }}</pre>
-<body>
   <div class="container">
-    <!-- 中身（h1, textarea, button, resultなど） -->
+    <h1>📘 日本語 → Python 対応表</h1>
+    <p><a href="/">← 実行画面に戻る</a></p>
+    <input type="text" id="search" onkeyup="filterTable()" placeholder="🔍 検索 (例: 表示)">
+    <table>
+      <tr><th>日本語</th><th>Python</th><th>操作</th></tr>
+      {{ rows | safe }}
+    </table>
+    <div id="exampleBox"></div>
   </div>
 </body>
 </html>
@@ -332,5 +392,6 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
 
