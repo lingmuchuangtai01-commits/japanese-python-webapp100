@@ -138,21 +138,32 @@ HTML_MAIN = """
 <style>
   body {
     font-family: 'Arial', sans-serif;
-    background-color: #f9f9f9;
-    padding: 15px;
-    max-width: 100%;
+    background-color: #f0f0f0;
     margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .container {
+    width: 90%;
+    max-width: 400px;
+    background-color: #fff;
+    margin-top: 30px;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   h1 {
     text-align: center;
+    font-size: 20px;
     color: #333;
-    font-size: 22px;
   }
 
   textarea {
     width: 100%;
-    height: 250px;
+    height: 200px;
     padding: 10px;
     font-size: 14px;
     border: 1px solid #ccc;
@@ -164,12 +175,12 @@ HTML_MAIN = """
   button {
     width: 100%;
     padding: 12px;
+    font-size: 16px;
     background-color: #007bff;
     color: white;
     border: none;
     border-radius: 8px;
     margin-top: 10px;
-    font-size: 16px;
   }
 
   button:hover {
@@ -179,28 +190,10 @@ HTML_MAIN = """
   .result-box {
     margin-top: 15px;
     padding: 10px;
-    background-color: white;
+    background-color: #fafafa;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     font-size: 14px;
-    word-wrap: break-word;
-  }
-
-  /* スマホ向け調整 */
-  @media (max-width: 600px) {
-    h1 {
-      font-size: 18px;
-    }
-    textarea {
-      height: 200px;
-      font-size: 13px;
-    }
-    button {
-      font-size: 15px;
-    }
-    .result-box {
-      font-size: 13px;
-    }
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   }
 </style>
 </head>
@@ -213,6 +206,10 @@ HTML_MAIN = """
 </form>
 <h3>結果</h3>
 <pre>{{ result }}</pre>
+<body>
+  <div class="container">
+    <!-- 中身（h1, textarea, button, resultなど） -->
+  </div>
 </body>
 </html>
 """
@@ -224,72 +221,90 @@ HTML_TABLE = """
 <meta charset="UTF-8">
 <title>対応表</title>
 <style>
-  body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f9f9f9;
-    padding: 15px;
-    max-width: 100%;
-    margin: 0;
-  }
+  /* 対応表ページの基本スタイル */
+body {
+  font-family: "Noto Sans JP", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f6fa;
+  color: #333;
+  text-align: center;
+}
 
-  h1 {
-    text-align: center;
-    color: #333;
-    font-size: 22px;
-  }
+h1 {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px;
+  margin: 0;
+  font-size: 20px;
+}
 
-  textarea {
+/* テーブル全体のデザイン */
+table {
+  width: 95%;
+  margin: 15px auto;
+  border-collapse: collapse;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+  font-size: 15px;
+}
+
+/* 行を交互に少し色分け */
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* スマホ対応 */
+@media (max-width: 768px) {
+  table {
     width: 100%;
-    height: 250px;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    resize: vertical;
+    font-size: 13px;
+  }
+
+  th, td {
+    display: block;
+    width: 100%;
     box-sizing: border-box;
+    text-align: left;
+    padding: 8px;
   }
 
-  button {
-    width: 100%;
-    padding: 12px;
-    background-color: #007bff;
+  tr {
+    margin-bottom: 10px;
+    display: block;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+  }
+
+  th {
+    background-color: #4CAF50;
     color: white;
-    border: none;
-    border-radius: 8px;
-    margin-top: 10px;
-    font-size: 16px;
-  }
-
-  button:hover {
-    background-color: #0056b3;
-  }
-
-  .result-box {
-    margin-top: 15px;
-    padding: 10px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     font-size: 14px;
-    word-wrap: break-word;
+    border-bottom: none;
   }
 
-  /* スマホ向け調整 */
-  @media (max-width: 600px) {
-    h1 {
-      font-size: 18px;
-    }
-    textarea {
-      height: 200px;
-      font-size: 13px;
-    }
-    button {
-      font-size: 15px;
-    }
-    .result-box {
-      font-size: 13px;
-    }
+  td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    display: block;
+    margin-bottom: 4px;
+    color: #666;
   }
+}
 </style>
 
 <script>
@@ -317,4 +332,5 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
