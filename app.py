@@ -43,6 +43,26 @@ JP_TO_PY = {
     "キー": "keys",
     "値": "values",
 }
+# 日本語コードをPythonコードに変換する簡易関数
+def translate(jp_code: str) -> str:
+    replacements = {
+        "もし": "if",
+        "そうでなければ": "else",
+        "繰り返す": "for",
+        "範囲": "range",
+        "表示": "print",
+        "関数": "def",
+        "戻る": "return",
+        "試す": "try",
+        "失敗したら": "except",
+        "クラス": "class",
+        "インポート": "import",
+    }
+
+    py_code = jp_code
+    for jp, py in replacements.items():
+        py_code = py_code.replace(jp, py)
+    return py_code
 
 # --- やさしい日本語エラーメッセージ ---
 error_messages = {
@@ -77,26 +97,37 @@ def translate(jp_code: str) -> str:
     return py_code
 
 # --- 日本語コード実行 + エラー翻訳 ---
-def run_japanese_code(jp_code: str) -> str:
-    py_code = translate(jp_code)
-    buffer = io.StringIO()
-    sys_stdout = sys.stdout
-    sys.stdout = buffer
-
+def run_japanese_code(jp_code):
     try:
-    # よく使うライブラリを事前に利用可能にする
-    safe_globals = {"__builtins__": __builtins__, "time": __import__("time"), "random": __import__("random")}
-    exec(py_code, safe_globals)
+        py_code = translate(jp_code)
+        # 出力を取得
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            exec(py_code, {})
+        return output.getvalue()
     except Exception as e:
-        sys.stdout = sys_stdout
-        err_type = type(e).__name__
-        jp_message = error_messages.get(err_type, f"不明なエラーが発生しました ({err_type})")
-        detail = str(e)
-        return f"⚠️ {jp_message}\n\n💬 詳細: {detail}"
-    finally:
-        sys.stdout = sys_stdout
+        # エラーを日本語に変換
+        error_message = translate_error_to_japanese(str(e))
+        return f"エラー: {error_message}"
+def translate_error_to_japanese(error_text: str) -> str:
+    """英語のエラーメッセージを日本語に変換"""
+    replacements = {
+        "NameError": "名前が定義されていません",
+        "SyntaxError": "文法エラーです",
+        "TypeError": "型の使い方が正しくありません",
+        "ValueError": "値が不正です",
+        "IndexError": "インデックスの範囲外です",
+        "KeyError": "指定されたキーが見つかりません",
+        "ZeroDivisionError": "0で割ることはできません",
+        "FileNotFoundError": "ファイルが見つかりません",
+        "ImportError": "モジュールの読み込みに失敗しました",
+        "AttributeError": "指定された属性が存在しません",
+    }
 
-    return buffer.getvalue()
+    for en, jp in replacements.items():
+        if en in error_text:
+            return jp + "（" + error_text + "）"
+    return "不明なエラーです: " + error_text
 
 # 実行ページ
 @app.route("/", methods=["GET", "POST"])
@@ -244,6 +275,7 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
 
 
