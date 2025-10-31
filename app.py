@@ -114,11 +114,11 @@ HTML_MAIN = """
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>日本語Python 実行ページ</title>
 <style>
-body {{ font-family: "Segoe UI", sans-serif; margin: 20px; background: #f7f7f7; }}
-textarea {{ width: 100%; height: 220px; border-radius: 8px; padding: 10px; font-size: 16px; }}
-button {{ margin-top: 10px; width: 100%; padding: 10px; background: #4CAF50; color: white; border: none; border-radius: 8px; }}
-a {{ text-decoration: none; color: #007bff; }}
-pre {{ background: #222; color: #0f0; padding: 10px; border-radius: 8px; }}
+body { font-family: "Segoe UI", sans-serif; margin: 20px; background: #f7f7f7; }
+textarea { width: 100%; height: 220px; border-radius: 8px; padding: 10px; font-size: 16px; }
+button { margin-top: 10px; width: 100%; padding: 10px; background: #4CAF50; color: white; border: none; border-radius: 8px; }
+a { text-decoration: none; color: #007bff; }
+pre { background: #222; color: #0f0; padding: 10px; border-radius: 8px; }
 </style>
 </head>
 <body>
@@ -143,15 +143,15 @@ HTML_TABLE = """
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>対応表</title>
 <style>
-body {{ font-family: "Segoe UI", sans-serif; margin: 20px; background: #fafafa; }}
-table {{ width: 100%; border-collapse: collapse; }}
-th, td {{ border: 1px solid #ccc; padding: 8px; text-align: center; }}
-th {{ background: #f0f0f0; }}
-input {{ width: 100%; padding: 8px; margin-bottom: 10px; }}
-button {{ border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; }}
-.copy-btn {{ background: #4CAF50; color: white; }}
-.example-btn {{ background: #007bff; color: white; }}
-#exampleBox {{ display: none; background: #eef; padding: 10px; margin-top: 15px; border-radius: 8px; }}
+body { font-family: "Segoe UI", sans-serif; margin: 20px; background: #fafafa; }
+table { width: 100%; border-collapse: collapse; }
+th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+th { background: #f0f0f0; }
+input { width: 100%; padding: 8px; margin-bottom: 10px; }
+button { border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; }
+.copy-btn { background: #4CAF50; color: white; }
+.example-btn { background: #007bff; color: white; }
+#exampleBox { display: none; background: #eef; padding: 10px; margin-top: 15px; border-radius: 8px; }
 </style>
 <script>
 function copyText(text) {
@@ -191,6 +191,7 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
 
 
