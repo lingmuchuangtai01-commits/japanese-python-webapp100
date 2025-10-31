@@ -199,14 +199,7 @@ HTML_MAIN = """
 </head>
 <body>
   <div class="container">
-    <h1>📘 日本語 → Python 対応表</h1>
-    <p><a href="/">← 実行画面に戻る</a></p>
-    <input type="text" id="search" onkeyup="filterTable()" placeholder="🔍 検索 (例: 表示)">
-    <table>
-      <tr><th>日本語</th><th>Python</th><th>操作</th></tr>
-      {{ rows | safe }}
-    </table>
-    <div id="exampleBox"></div>
+    <!-- 中身（h1, textarea, button, resultなど） -->
   </div>
 </body>
 </html>
@@ -330,6 +323,7 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
 
 
