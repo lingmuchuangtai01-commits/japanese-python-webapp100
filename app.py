@@ -44,21 +44,6 @@ JP_TO_PY = {
     "キー": "keys",
     "値": "values",
 }
-# 日本語コードをPythonコードに変換する簡易関数
-def translate(jp_code: str) -> str:
-    replacements = {
-        "もし": "if",
-        "そうでなければ": "else",
-        "繰り返す": "for",
-        "範囲": "range",
-        "表示": "print",
-        "関数": "def",
-        "戻る": "return",
-        "試す": "try",
-        "失敗したら": "except",
-        "クラス": "class",
-        "インポート": "import",
-    }
 
     py_code = jp_code
     for jp, py in replacements.items():
@@ -276,6 +261,7 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
 
 
