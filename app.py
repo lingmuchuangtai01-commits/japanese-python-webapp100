@@ -44,6 +44,21 @@ JP_TO_PY = {
     "値": "values",
 }
 
+# --- やさしい日本語エラーメッセージ ---
+error_messages = {
+    "SyntaxError": "文の書き方が間違っています。\n（例：「かっこ」や「：」を忘れていませんか？）",
+    "NameError": "使おうとした名前（変数や関数）が見つかりません。\n（例：「あいさつ」という変数をまだ作っていませんか？）",
+    "TypeError": "データの種類（数・文字など）が合っていません。\n（例：「文字」と「数」を足そうとしていませんか？）",
+    "ZeroDivisionError": "0で割ることはできません。\n（例：「10 ÷ 0」は計算できません）",
+    "IndentationError": "インデント（字下げ）が正しくありません。\n（例：「もし」や「繰り返し」の後にスペースを入れましたか？）",
+    "AttributeError": "そのもの（オブジェクト）に使える命令が違います。\n（例：「数字」に対して「追加する」は使えません）",
+    "ValueError": "値が正しくありません。\n（例：「数字に変換できない文字」を使っていませんか？）",
+    "IndexError": "順番の番号が多すぎます。\n（例：リストの長さより大きい番号を使っていませんか？）",
+    "KeyError": "その名前（キー）が見つかりません。\n（例：「辞書」にその言葉が入っていますか？）",
+    "RuntimeError": "プログラムの途中で問題が起きました。\n（もう一度ゆっくり確認してみましょう）",
+    "ImportError": "読み込もうとしたものが見つかりません。\n（ファイル名やライブラリ名を確認してください）",
+}
+
 # 説明文（例付き）
 EXAMPLES = {
     "表示": "例: 表示('こんにちは') → 画面に文字を出す",
@@ -209,7 +224,7 @@ function filterTable() {
 <input type="text" id="search" onkeyup="filterTable()" placeholder="🔍 検索 (例: 表示)">
 <table>
 <tr><th>日本語</th><th>Python</th><th>操作</th></tr>
-{{ rows }}
+{{ rows | safe }}
 </table>
 <div id="exampleBox"></div>
 </body>
@@ -220,6 +235,7 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
 
 
