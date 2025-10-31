@@ -84,7 +84,9 @@ def run_japanese_code(jp_code: str) -> str:
     sys.stdout = buffer
 
     try:
-        exec(py_code, {})
+    # よく使うライブラリを事前に利用可能にする
+    safe_globals = {"__builtins__": __builtins__, "time": __import__("time"), "random": __import__("random")}
+    exec(py_code, safe_globals)
     except Exception as e:
         sys.stdout = sys_stdout
         err_type = type(e).__name__
@@ -242,6 +244,7 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
 
 
