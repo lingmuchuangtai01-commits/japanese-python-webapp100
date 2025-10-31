@@ -1,12 +1,13 @@
 from flask import Flask, request, render_template_string, session
 import io
-import sys
 import contextlib
 
 app = Flask(__name__)
 app.secret_key = "nihongo-python-secret"
 
-# 日本語→Python変換マップ
+# -------------------------------
+# 🔤 日本語 → Python 変換マップ
+# -------------------------------
 JP_TO_PY = {
     "表示": "print",
     "もし": "if",
@@ -45,7 +46,20 @@ JP_TO_PY = {
     "値": "values",
 }
 
-# --- やさしい日本語エラーメッセージ ---
+# -------------------------------
+# 🈁 日本語 → Python コード変換
+# -------------------------------
+def translate(jp_code: str) -> str:
+    """日本語コードをPythonコードに変換"""
+    py_code = jp_code
+    for jp, py in JP_TO_PY.items():
+        py_code = py_code.replace(jp, py)
+    return py_code
+
+
+# -------------------------------
+# ⚠ やさしい日本語エラーメッセージ
+# -------------------------------
 ERROR_MESSAGES = {
     "SyntaxError": "文の書き方が間違っています。\n（例：「かっこ」や「：」を忘れていませんか？）",
     "NameError": "使おうとした名前（変数や関数）が見つかりません。\n（例：「あいさつ」という変数をまだ作っていませんか？）",
@@ -60,22 +74,18 @@ ERROR_MESSAGES = {
     "ImportError": "読み込もうとしたものが見つかりません。\n（ファイル名やライブラリ名を確認してください）",
 }
 
-# --- 日本語→Python変換 ---
-def translate(jp_code: str) -> str:
-    py_code = jp_code
-    for jp, py in JP_TO_PY.items():
-        py_code = py_code.replace(jp, py)
-    return py_code
-
-# --- エラーを日本語化する関数 ---
 def translate_error_to_japanese(e: Exception) -> str:
+    """英語のエラーメッセージを日本語に変換"""
     error_type = type(e).__name__
     if error_type in ERROR_MESSAGES:
         return f"{ERROR_MESSAGES[error_type]}\n\n（詳細: {str(e)}）"
     else:
         return f"不明なエラーが発生しました: {error_type}\n{str(e)}"
 
-# --- 日本語Pythonコード実行 ---
+
+# -------------------------------
+# 💡 日本語Python 実行関数
+# -------------------------------
 def run_japanese_code(jp_code):
     try:
         py_code = translate(jp_code)
@@ -86,7 +96,10 @@ def run_japanese_code(jp_code):
     except Exception as e:
         return f"⚠ エラー:\n{translate_error_to_japanese(e)}"
 
-# --- Flaskルーティング ---
+
+# -------------------------------
+# 🌐 Flaskルート設定
+# -------------------------------
 @app.route("/", methods=["GET", "POST"])
 def index():
     code = session.get("saved_code", "")
@@ -97,7 +110,7 @@ def index():
         result = run_japanese_code(code)
     return render_template_string(HTML_MAIN, code=code, result=result)
 
-# --- 対応表ページ ---
+
 @app.route("/table")
 def table():
     table_rows = "".join(
@@ -105,16 +118,17 @@ def table():
         <tr>
             <td>{jp}</td>
             <td>{py}</td>
-            <td>
-                <button onclick="copyText('{jp}')">📋 コピー</button>
-            </td>
+            <td><button onclick="copyText('{jp}')">📋 コピー</button></td>
         </tr>
         """
         for jp, py in JP_TO_PY.items()
     )
     return render_template_string(HTML_TABLE, rows=table_rows)
 
-# --- HTMLテンプレート ---
+
+# -------------------------------
+# 🖋 HTMLテンプレート
+# -------------------------------
 HTML_MAIN = """
 <!DOCTYPE html>
 <html lang="ja">
@@ -172,6 +186,9 @@ function copyText(text) {
 </html>
 """
 
+# -------------------------------
+# 🚀 サーバ起動
+# -------------------------------
 if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
