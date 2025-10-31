@@ -125,7 +125,7 @@ pre {{ background: #222; color: #0f0; padding: 10px; border-radius: 8px; }}
 <h1>🐍 日本語Python 実行ページ</h1>
 <p><a href="/table">👉 対応表を見る</a></p>
 <form method="post">
-<textarea name="code" placeholder="ここに日本語Pythonコードを入力">{{ code }}</textarea>
+<textarea name="code">{{ code or '' }}</textarea>
 <button type="submit">▶ 実行</button>
 </form>
 <h3>結果</h3>
@@ -191,4 +191,5 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
