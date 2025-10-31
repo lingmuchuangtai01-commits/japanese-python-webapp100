@@ -154,24 +154,24 @@ button {{ border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; 
 #exampleBox {{ display: none; background: #eef; padding: 10px; margin-top: 15px; border-radius: 8px; }}
 </style>
 <script>
-function copyText(text) {{
+function copyText(text) {
   navigator.clipboard.writeText(text);
   alert('「' + text + '」をコピーしました！');
-}}
-function showExample(key) {{
-  const examples = {{ {', '.join([f"'{k}': '{v}'" for k, v in EXAMPLES.items()])} }};
+}
+function showExample(key) {
+  const examples = {{ examples | tojson }};
   const box = document.getElementById('exampleBox');
   box.style.display = 'block';
   box.innerHTML = examples[key] || 'この語の例はまだ登録されていません。';
-}}
-function filterTable() {{
+}
+function filterTable() {
   let input = document.getElementById("search").value.toLowerCase();
   let rows = document.querySelectorAll("table tr");
-  for (let i = 1; i < rows.length; i++) {{
+  for (let i = 1; i < rows.length; i++) {
     let text = rows[i].innerText.toLowerCase();
     rows[i].style.display = text.includes(input) ? "" : "none";
-  }}
-}}
+  }
+}
 </script>
 </head>
 <body>
@@ -191,5 +191,6 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
 
