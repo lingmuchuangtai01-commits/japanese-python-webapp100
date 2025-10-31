@@ -136,10 +136,72 @@ HTML_MAIN = """
 <meta charset="UTF-8">
 <title>日本語Python 実行ページ</title>
 <style>
-body { font-family: "Meiryo", sans-serif; background: #f9f9f9; padding: 20px; }
-textarea { width: 100%; height: 220px; border-radius: 8px; padding: 10px; font-size: 16px; }
-button { margin-top: 10px; width: 100%; padding: 10px; background: #4CAF50; color: white; border: none; border-radius: 8px; }
-pre { background: #222; color: #0f0; padding: 10px; border-radius: 8px; white-space: pre-wrap; }
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    padding: 15px;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  h1 {
+    text-align: center;
+    color: #333;
+    font-size: 22px;
+  }
+
+  textarea {
+    width: 100%;
+    height: 250px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: vertical;
+    box-sizing: border-box;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-size: 16px;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  .result-box {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    word-wrap: break-word;
+  }
+
+  /* スマホ向け調整 */
+  @media (max-width: 600px) {
+    h1 {
+      font-size: 18px;
+    }
+    textarea {
+      height: 200px;
+      font-size: 13px;
+    }
+    button {
+      font-size: 15px;
+    }
+    .result-box {
+      font-size: 13px;
+    }
+  }
 </style>
 </head>
 <body>
@@ -162,12 +224,74 @@ HTML_TABLE = """
 <meta charset="UTF-8">
 <title>対応表</title>
 <style>
-body { font-family: "Meiryo", sans-serif; background: #fdfdfd; padding: 20px; }
-table { width: 100%; border-collapse: collapse; background: white; }
-th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
-th { background: #eee; }
-button { padding: 5px 10px; border: none; border-radius: 5px; background: #4CAF50; color: white; }
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    padding: 15px;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  h1 {
+    text-align: center;
+    color: #333;
+    font-size: 22px;
+  }
+
+  textarea {
+    width: 100%;
+    height: 250px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: vertical;
+    box-sizing: border-box;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-size: 16px;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  .result-box {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    word-wrap: break-word;
+  }
+
+  /* スマホ向け調整 */
+  @media (max-width: 600px) {
+    h1 {
+      font-size: 18px;
+    }
+    textarea {
+      height: 200px;
+      font-size: 13px;
+    }
+    button {
+      font-size: 15px;
+    }
+    .result-box {
+      font-size: 13px;
+    }
+  }
 </style>
+
 <script>
 function copyText(text) {
   navigator.clipboard.writeText(text);
@@ -193,3 +317,4 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
