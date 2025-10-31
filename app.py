@@ -45,11 +45,6 @@ JP_TO_PY = {
     "値": "values",
 }
 
-    py_code = jp_code
-    for jp, py in replacements.items():
-        py_code = py_code.replace(jp, py)
-    return py_code
-
 # --- やさしい日本語エラーメッセージ ---
 error_messages = {
     "SyntaxError": "文の書き方が間違っています。\n（例：「かっこ」や「：」を忘れていませんか？）",
@@ -261,6 +256,7 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
 
 
