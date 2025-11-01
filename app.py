@@ -134,6 +134,7 @@ HTML_MAIN = """
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>日本語Python 実行ページ</title>
 <style>
   body {
@@ -159,6 +160,19 @@ HTML_MAIN = """
     text-align: center;
     font-size: 20px;
     color: #333;
+    margin-bottom: 10px;
+  }
+
+  a {
+    display: block;
+    text-align: center;
+    color: #007bff;
+    text-decoration: none;
+    margin-bottom: 10px;
+  }
+
+  a:hover {
+    text-decoration: underline;
   }
 
   textarea {
@@ -187,25 +201,48 @@ HTML_MAIN = """
     background-color: #0056b3;
   }
 
-  .result-box {
+  h3 {
+    font-size: 16px;
     margin-top: 15px;
+    color: #333;
+  }
+
+  pre {
+    background-color: #222;
+    color: #0f0;
     padding: 10px;
-    background-color: #fafafa;
     border-radius: 8px;
     font-size: 14px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+  }
+
+  @media (max-width: 600px) {
+    .container {
+      width: 95%;
+      margin-top: 10px;
+      border-radius: 0;
+      box-shadow: none;
+    }
+    h1 { font-size: 18px; }
+    textarea { height: 180px; font-size: 13px; }
+    button { font-size: 14px; padding: 10px; }
   }
 </style>
 </head>
 <body>
   <div class="container">
-    <!-- 中身（h1, textarea, button, resultなど） -->
+    <h1>🐍 日本語Python 実行ページ</h1>
+    <a href="/table">👉 対応表を見る</a>
+    <form method="post">
+      <textarea name="code">{{ code or '' }}</textarea>
+      <button type="submit">▶ 実行</button>
+    </form>
+    <h3>結果</h3>
+    <pre>{{ result }}</pre>
   </div>
 </body>
 </html>
 """
-
-HTML_TABLE = """
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -323,6 +360,7 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
 
 
