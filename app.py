@@ -46,6 +46,7 @@ JP_TO_PY = {
     "値": "values",
 }
 
+
 # -------------------------------
 # 🈁 日本語 → Python コード変換
 # -------------------------------
@@ -57,23 +58,25 @@ def translate(jp_code: str) -> str:
 
 
 # -------------------------------
-# ⚠ 日本語エラーメッセージ
+# ⚠ やさしい日本語エラーメッセージ
 # -------------------------------
 ERROR_MESSAGES = {
-    "SyntaxError": "文の書き方が間違っています。",
-    "NameError": "使おうとした名前が見つかりません。",
-    "TypeError": "データの種類が合っていません。",
-    "ZeroDivisionError": "0で割ることはできません。",
-    "IndentationError": "インデントが正しくありません。",
-    "AttributeError": "そのものに使える命令が違います。",
-    "ValueError": "値が正しくありません。",
-    "IndexError": "番号が大きすぎます。",
-    "KeyError": "その名前（キー）が見つかりません。",
-    "RuntimeError": "プログラムの途中で問題が起きました。",
-    "ImportError": "読み込もうとしたものが見つかりません。",
+    "SyntaxError": "文の書き方が間違っています。\n（例：「かっこ」や「：」を忘れていませんか？）",
+    "NameError": "使おうとした名前（変数や関数）が見つかりません。\n（例：「あいさつ」という変数をまだ作っていませんか？）",
+    "TypeError": "データの種類（数・文字など）が合っていません。\n（例：「文字」と「数」を足そうとしていませんか？）",
+    "ZeroDivisionError": "0で割ることはできません。\n（例：「10 ÷ 0」は計算できません）",
+    "IndentationError": "インデント（字下げ）が正しくありません。\n（例：「もし」や「繰り返し」の後にスペースを入れましたか？）",
+    "AttributeError": "そのもの（オブジェクト）に使える命令が違います。\n（例：「数字」に対して「追加する」は使えません）",
+    "ValueError": "値が正しくありません。\n（例：「数字に変換できない文字」を使っていませんか？）",
+    "IndexError": "順番の番号が多すぎます。\n（例：リストの長さより大きい番号を使っていませんか？）",
+    "KeyError": "その名前（キー）が見つかりません。\n（例：「辞書」にその言葉が入っていますか？）",
+    "RuntimeError": "プログラムの途中で問題が起きました。\n（もう一度ゆっくり確認してみましょう）",
+    "ImportError": "読み込もうとしたものが見つかりません。\n（ファイル名やライブラリ名を確認してください）",
 }
 
+
 def translate_error_to_japanese(e: Exception) -> str:
+    """英語のエラーメッセージを日本語に変換"""
     error_type = type(e).__name__
     if error_type in ERROR_MESSAGES:
         return f"{ERROR_MESSAGES[error_type]}\n\n（詳細: {str(e)}）"
@@ -82,15 +85,26 @@ def translate_error_to_japanese(e: Exception) -> str:
 
 
 # -------------------------------
-# 💡 日本語Python 実行関数
+# 💡 日本語Python 実行関数（input対応）
 # -------------------------------
-def run_japanese_code(jp_code):
+def run_japanese_code(jp_code, inputs=None):
     try:
         py_code = translate(jp_code)
         output = io.StringIO()
+
+        # 標準入力を模擬
+        if inputs:
+            input_stream = io.StringIO("\n".join(inputs))
+        else:
+            input_stream = io.StringIO("")
+
         with contextlib.redirect_stdout(output):
-            exec(py_code, {})
+            with contextlib.redirect_stderr(output):
+                with contextlib.redirect_stdin(input_stream):
+                    exec(py_code, {})
+
         return output.getvalue()
+
     except Exception as e:
         return f"⚠ エラー:\n{translate_error_to_japanese(e)}"
 
@@ -104,8 +118,9 @@ def index():
     result = ""
     if request.method == "POST":
         code = request.form["code"]
+        inputs = request.form.get("inputs", "").splitlines()
         session["saved_code"] = code
-        result = run_japanese_code(code)
+        result = run_japanese_code(code, inputs)
     return render_template_string(HTML_MAIN, code=code, result=result)
 
 
@@ -143,6 +158,7 @@ HTML_MAIN = """
     display: flex;
     justify-content: center;
   }
+
   .container {
     width: 90%;
     max-width: 400px;
@@ -152,12 +168,14 @@ HTML_MAIN = """
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
+
   h1 {
     text-align: center;
     font-size: 20px;
     color: #333;
     margin-bottom: 10px;
   }
+
   a {
     display: block;
     text-align: center;
@@ -165,6 +183,9 @@ HTML_MAIN = """
     text-decoration: none;
     margin-bottom: 10px;
   }
+
+  a:hover { text-decoration: underline; }
+
   textarea {
     width: 100%;
     height: 200px;
@@ -175,6 +196,16 @@ HTML_MAIN = """
     resize: vertical;
     box-sizing: border-box;
   }
+
+  input[type="text"], textarea[name="inputs"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+
   button {
     width: 100%;
     padding: 12px;
@@ -185,14 +216,9 @@ HTML_MAIN = """
     border-radius: 8px;
     margin-top: 10px;
   }
-  button:hover {
-    background-color: #0056b3;
-  }
-  h3 {
-    font-size: 16px;
-    margin-top: 15px;
-    color: #333;
-  }
+
+  button:hover { background-color: #0056b3; }
+
   pre {
     background-color: #222;
     color: #0f0;
@@ -201,6 +227,13 @@ HTML_MAIN = """
     font-size: 14px;
     overflow-x: auto;
   }
+
+  @media (max-width: 600px) {
+    .container { width: 95%; margin-top: 10px; box-shadow: none; border-radius: 0; }
+    h1 { font-size: 18px; }
+    textarea { height: 180px; font-size: 13px; }
+    button { font-size: 14px; padding: 10px; }
+  }
 </style>
 </head>
 <body>
@@ -208,7 +241,8 @@ HTML_MAIN = """
     <h1>🐍 日本語Python 実行ページ</h1>
     <a href="/table">👉 対応表を見る</a>
     <form method="post">
-      <textarea name="code">{{ code or '' }}</textarea>
+      <textarea name="code" placeholder="ここに日本語Pythonコードを書いてください">{{ code or '' }}</textarea>
+      <textarea name="inputs" placeholder="ここに入力値（1行ごと）を入力してください"></textarea>
       <button type="submit">▶ 実行</button>
     </form>
     <h3>結果</h3>
@@ -233,6 +267,7 @@ body {
   color: #333;
   text-align: center;
 }
+
 h1 {
   background-color: #4CAF50;
   color: white;
@@ -240,6 +275,7 @@ h1 {
   margin: 0;
   font-size: 20px;
 }
+
 table {
   width: 95%;
   margin: 15px auto;
@@ -249,19 +285,50 @@ table {
   border-radius: 10px;
   overflow: hidden;
 }
+
 th, td {
   padding: 10px;
   text-align: left;
   border-bottom: 1px solid #ddd;
   font-size: 14px;
 }
+
 th {
   background-color: #4CAF50;
   color: white;
   font-size: 15px;
 }
-tr:nth-child(even) {
-  background-color: #f9f9f9;
+
+tr:nth-child(even) { background-color: #f9f9f9; }
+
+@media (max-width: 768px) {
+  table { width: 100%; font-size: 13px; }
+  th, td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+    padding: 8px;
+  }
+  tr {
+    margin-bottom: 10px;
+    display: block;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+  }
+  th {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 14px;
+    border-bottom: none;
+  }
+  td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    display: block;
+    margin-bottom: 4px;
+    color: #666;
+  }
 }
 </style>
 <script>
