@@ -92,20 +92,33 @@ def run_japanese_code(jp_code, inputs=None):
         py_code = translate(jp_code)
         output = io.StringIO()
 
-        # 標準入力を模擬
-        if inputs:
-            input_stream = io.StringIO("\n".join(inputs))
-        else:
-            input_stream = io.StringIO("")
+        # 標準入力の模擬処理
+        input_data = inputs or []
+        input_iter = iter(input_data)
+
+        def fake_input(prompt=""):
+            try:
+                return next(input_iter)
+            except StopIteration:
+                raise EOFError("入力が足りませんでした。")
+
+        # 本来の input を退避
+        builtins_backup = __builtins__["input"]
+        __builtins__["input"] = fake_input
 
         with contextlib.redirect_stdout(output):
             with contextlib.redirect_stderr(output):
-                with contextlib.redirect_stdin(input_stream):
-                    exec(py_code, {})
+                exec(py_code, {})
+
+        # input を元に戻す
+        __builtins__["input"] = builtins_backup
 
         return output.getvalue()
 
     except Exception as e:
+        # input を元に戻す（エラー時も）
+        if "builtins_backup" in locals():
+            __builtins__["input"] = builtins_backup
         return f"⚠ エラー:\n{translate_error_to_japanese(e)}"
 
 
@@ -356,3 +369,4 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
