@@ -87,6 +87,8 @@ def translate_error_to_japanese(e: Exception) -> str:
 # -------------------------------
 # 💡 日本語Python 実行関数（input対応）
 # -------------------------------
+import builtins
+
 def run_japanese_code(jp_code, inputs=None):
     try:
         py_code = translate(jp_code)
@@ -103,24 +105,23 @@ def run_japanese_code(jp_code, inputs=None):
                 raise EOFError("入力が足りませんでした。")
 
         # 本来の input を退避
-        builtins_backup = __builtins__["input"]
-        __builtins__["input"] = fake_input
+        builtins_backup = builtins.input
+        builtins.input = fake_input
 
         with contextlib.redirect_stdout(output):
             with contextlib.redirect_stderr(output):
                 exec(py_code, {})
 
         # input を元に戻す
-        __builtins__["input"] = builtins_backup
+        builtins.input = builtins_backup
 
         return output.getvalue()
 
     except Exception as e:
-        # input を元に戻す（エラー時も）
+        # エラーが起きても input を戻す
         if "builtins_backup" in locals():
-            __builtins__["input"] = builtins_backup
+            builtins.input = builtins_backup
         return f"⚠ エラー:\n{translate_error_to_japanese(e)}"
-
 
 # -------------------------------
 # 🌐 Flaskルート設定
@@ -369,4 +370,5 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
