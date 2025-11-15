@@ -295,38 +295,85 @@ body {
   background: #f5f6fa;
   text-align: center;
 }
+
 table {
   width: 95%;
   margin: 20px auto;
   background: white;
   border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
 }
+
 th, td {
-  padding: 10px;
+  padding: 12px;
   border-bottom: 1px solid #ddd;
 }
+
 th {
   background: #4CAF50;
   color: white;
 }
+
+.icon {
+  width: 32px;
+  height: 32px;
+}
+
+.example-box {
+  text-align: left;
+}
 </style>
+
 <script>
 function copyText(t){
   navigator.clipboard.writeText(t);
   alert("コピーしました: " + t);
 }
 </script>
+
 </head>
 <body>
-<h1>📘 日本語 → Python 対応表</h1>
+<h1>📘 日本語 → Python 対応表（画像付き）</h1>
 <a href="/">← 戻る</a>
+
 <table>
-<tr><th>日本語</th><th>Python</th><th>実用例</th><th>操作</th></tr>
-{{ rows | safe }}
+@app.route("/table")
+def table():
+    ICONS = {
+        "表示": "https://img.icons8.com/?size=100&id=98965&format=png",
+        "入力": "https://img.icons8.com/?size=100&id=59863&format=png",
+        "もし": "https://img.icons8.com/?size=100&id=82712&format=png",
+        "でなければ": "https://img.icons8.com/?size=100&id=82710&format=png",
+        "繰り返す": "https://img.icons8.com/?size=100&id=79657&format=png",
+        "範囲": "https://img.icons8.com/?size=100&id=12580&format=png",
+        "イコール": "https://img.icons8.com/?size=100&id=33355&format=png",
+        "を足す": "https://img.icons8.com/?size=100&id=80460&format=png",
+        "を引く": "https://img.icons8.com/?size=100&id=80458&format=png",
+        "を掛ける": "https://img.icons8.com/?size=100&id=80459&format=png",
+        "を割る": "https://img.icons8.com/?size=100&id=80457&format=png",
+    }
+
+    rows = ""
+    for jp, py in JP_TO_PY.items():
+        icon = ICONS.get(jp, "https://img.icons8.com/?size=100&id=24814&format=png")  # 汎用アイコン
+        rows += f"""
+        <tr>
+            <td><img class="icon" src="{icon}"></td>
+            <td>{jp}</td>
+            <td>{py}</td>
+            <td class="example-box">{EXAMPLE_MAP.get(jp, "（例なし）")}</td>
+            <td><button onclick="copyText('{jp}')">📋 コピー</button></td>
+        </tr>
+        """
+
+    return render_template_string(HTML_TABLE, rows=rows)
+
 </table>
 </body>
 </html>
 """
+
 
 
 # --------------------------------
@@ -334,3 +381,4 @@ function copyText(t){
 # --------------------------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
