@@ -238,23 +238,6 @@ HTML_MAIN = """
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
-  h1 {
-    text-align: center;
-    font-size: 20px;
-    color: #333;
-    margin-bottom: 10px;
-  }
-
-  a {
-    display: block;
-    text-align: center;
-    color: #007bff;
-    text-decoration: none;
-    margin-bottom: 10px;
-  }
-
-  a:hover { text-decoration: underline; }
-
   textarea {
     width: 100%;
     height: 200px;
@@ -264,15 +247,6 @@ HTML_MAIN = """
     border-radius: 8px;
     resize: vertical;
     box-sizing: border-box;
-  }
-
-  input[type="text"], textarea[name="inputs"] {
-    width: 100%;
-    padding: 8px;
-    margin-top: 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
   }
 
   button {
@@ -285,8 +259,6 @@ HTML_MAIN = """
     border-radius: 8px;
     margin-top: 10px;
   }
-
-  button:hover { background-color: #0056b3; }
 
   pre {
     background-color: #222;
@@ -375,4 +347,5 @@ function copyText(t){
 # --------------------------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
