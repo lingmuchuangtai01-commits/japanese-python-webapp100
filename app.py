@@ -325,20 +325,15 @@ HTML_TABLE = """
 <title>対応表</title>
 <style>
 body {
-font-family: 'Noto Sans JP', sans-serif;
-margin: 0;
-padding: 0;
-background-color: #f5f6fa;
+font-family: 'Arial';
+background: #f5f6fa;
 text-align: center;
 }
 table {
 width: 95%;
-margin: 15px auto;
-border-collapse: collapse;
+margin: 20px auto;
 background: white;
-box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-border-radius: 10px;
-overflow: hidden;
+border-collapse: collapse
 }
 th, td {
 padding: 10px;
@@ -358,7 +353,7 @@ alert('コピーしました: ' + t);
 </head>
 <body>
 <h1>📘 日本語 → Python 対応表</h1>
-<p><a href="/">← 実行画面に戻る</a></p>
+<a href="/">← 戻る</a>
 <table>
 <tr><th>日本語</th><th>Python</th><th>実用例</th><th>操作</th></tr>
 {{ rows | safe }}
@@ -374,6 +369,7 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
 
 
