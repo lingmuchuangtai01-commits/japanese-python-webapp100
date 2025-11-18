@@ -227,38 +227,81 @@ HTML_MAIN = """
     display: flex;
     justify-content: center;
   }
+
   .container {
     width: 90%;
     max-width: 400px;
-    background: #fff;
+    background-color: #fff;
     margin-top: 30px;
     padding: 15px;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
+
+  h1 {
+    text-align: center;
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  a {
+    display: block;
+    text-align: center;
+    color: #007bff;
+    text-decoration: none;
+    margin-bottom: 10px;
+  }
+
+  a:hover { text-decoration: underline; }
+
   textarea {
     width: 100%;
     height: 200px;
     padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: vertical;
+    box-sizing: border-box;
+  }
+
+  input[type="text"], textarea[name="inputs"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+    font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 8px;
   }
-  textarea[name="inputs"] {
-    height: 120px;
-  }
+
   button {
     width: 100%;
     padding: 12px;
-    background: #007bff;
+    font-size: 16px;
+    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 8px;
+    margin-top: 10px;
   }
+
+  button:hover { background-color: #0056b3; }
+
   pre {
-    background: #222;
+    background-color: #222;
     color: #0f0;
-    padding: 8px;
-    border-radius: 5px;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  @media (max-width: 600px) {
+    .container { width: 95%; margin-top: 10px; box-shadow: none; border-radius: 0; }
+    h1 { font-size: 18px; }
+    textarea { height: 180px; font-size: 13px; }
+    button { font-size: 14px; padding: 10px; }
   }
 </style>
 </head>
@@ -267,8 +310,8 @@ HTML_MAIN = """
     <h1>🐍 日本語Python 実行ページ</h1>
     <a href="/table">👉 対応表を見る</a>
     <form method="post">
-      <textarea name="code">{{ code }}</textarea>
-      <textarea name="inputs">{{ inputs }}</textarea>
+      <textarea name="code" placeholder="ここに日本語Pythonコードを書いてください">{{ code or '' }}</textarea>
+      <textarea name="inputs" placeholder="ここに入力値（1行ごと）を入力してください"></textarea>
       <button type="submit">▶ 実行</button>
     </form>
     <h3>結果</h3>
@@ -277,7 +320,6 @@ HTML_MAIN = """
 </body>
 </html>
 """
-
 
 # --------------------------------
 # 📘 対応表ページ
@@ -333,3 +375,4 @@ function copyText(t){
 # --------------------------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
