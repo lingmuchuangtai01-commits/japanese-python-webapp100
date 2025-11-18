@@ -15,6 +15,7 @@ JP_TO_PY = {
     "繰り返す": "for",
     "範囲": "range",
     "入力": "input",
+    "イコール": "=",
     "を足す": "+=",
     "を引く": "-=",
     "を掛ける": "*=",
@@ -46,6 +47,51 @@ JP_TO_PY = {
     "値": "values",
 }
 
+# --------------------------------
+# 🧪 実用例（全コマンド対応）
+# --------------------------------
+EXAMPLE_MAP = {
+    "表示": '表示("こんにちは")',
+    "もし": 'もし x イコール 5:',
+    "でなければ": 'でなければ:',
+    "繰り返す": '繰り返す i 範囲(5):',
+    "範囲": '範囲(0, 5)',
+    "入力": '名前 イコール 入力("名前：")',
+    "イコール": 'x イコール 10',
+    "を足す": 'x を足す 1',
+    "を引く": 'x を引く 1',
+    "を掛ける": 'x を掛ける 2',
+    "を割る": 'x を割る 2',
+    "等しい": 'もし x 等しい 10:',
+    "以上": 'もし x 以上 5:',
+    "以下": 'もし x 以下 5:',
+    "大きい": 'もし x 大きい 5:',
+    "小さい": 'もし x 小さい 5:',
+    "かつ": 'もし a かつ b:',
+    "または": 'もし a または b:',
+    "真": 'flag イコール 真',
+    "偽": 'flag イコール 偽',
+    "終了": '終了',
+    "続ける": '続ける',
+    "関数": '関数 あいさつ():',
+    "戻す": '戻す x',
+    "リスト": 'nums イコール リスト([1,2,3])',
+    "追加": 'nums.追加(4)',
+    "削除": 'nums.削除(2)',
+    "長さ": '長さ(nums)',
+    "インポート": 'インポート random',
+    "時間": 'インポート 時間',
+    "待つ": '待つ(1)',
+    "ランダム": 'ランダム.から選ぶ([1,2,3])',
+    "から選ぶ": 'ランダム.から選ぶ([1,2,3])',
+    "辞書": 'd イコール 辞書({"a":1})',
+    "キー": 'd.キー()',
+    "値": 'd.値()',
+}
+
+
+def example(jp):
+    return EXAMPLE_MAP.get(jp, "（例なし）")
 
 # -------------------------------
 # 🈁 日本語 → Python コード変換
@@ -267,6 +313,9 @@ HTML_MAIN = """
 </html>
 """
 
+# --------------------------------
+# 📘 対応表ページ
+# --------------------------------
 HTML_TABLE = """
 <!DOCTYPE html>
 <html lang="ja">
@@ -275,89 +324,37 @@ HTML_TABLE = """
 <title>対応表</title>
 <style>
 body {
-  font-family: "Noto Sans JP", sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f5f6fa;
-  color: #333;
+  font-family: 'Arial';
+  background: #f5f6fa;
   text-align: center;
 }
-
-h1 {
-  background-color: #4CAF50;
-  color: white;
-  padding: 12px;
-  margin: 0;
-  font-size: 20px;
-}
-
 table {
   width: 95%;
-  margin: 15px auto;
-  border-collapse: collapse;
+  margin: 20px auto;
   background: white;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  border-radius: 10px;
-  overflow: hidden;
+  border-collapse: collapse;
 }
-
 th, td {
   padding: 10px;
-  text-align: left;
   border-bottom: 1px solid #ddd;
-  font-size: 14px;
 }
-
 th {
-  background-color: #4CAF50;
+  background: #4CAF50;
   color: white;
-  font-size: 15px;
-}
-
-tr:nth-child(even) { background-color: #f9f9f9; }
-
-@media (max-width: 768px) {
-  table { width: 100%; font-size: 13px; }
-  th, td {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    text-align: left;
-    padding: 8px;
-  }
-  tr {
-    margin-bottom: 10px;
-    display: block;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-  }
-  th {
-    background-color: #4CAF50;
-    color: white;
-    font-size: 14px;
-    border-bottom: none;
-  }
-  td::before {
-    content: attr(data-label);
-    font-weight: bold;
-    display: block;
-    margin-bottom: 4px;
-    color: #666;
-  }
 }
 </style>
 <script>
-function copyText(text) {
-  navigator.clipboard.writeText(text);
-  alert('「' + text + '」をコピーしました！');
+function copyText(t){
+  navigator.clipboard.writeText(t);
+  alert("コピーしました: " + t);
 }
 </script>
 </head>
 <body>
 <h1>📘 日本語 → Python 対応表</h1>
-<p><a href="/">← 実行画面に戻る</a></p>
+<a href="/">← 戻る</a>
 <table>
-<tr><th>日本語</th><th>Python</th><th>操作</th></tr>
+<tr><th>日本語</th><th>Python</th><th>実用例</th><th>操作</th></tr>
 {{ rows | safe }}
 </table>
 </body>
@@ -371,3 +368,4 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
