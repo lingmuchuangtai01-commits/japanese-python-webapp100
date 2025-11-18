@@ -321,42 +321,82 @@ HTML_TABLE = """
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>対応表</title>
+<title>日本語Python 実行ページ</title>
 <style>
-body {
-  font-family: 'Arial';
-  background: #f5f6fa;
-  text-align: center;
-}
-table {
-  width: 95%;
-  margin: 20px auto;
-  background: white;
-  border-collapse: collapse;
-}
-th, td {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-}
-th {
-  background: #4CAF50;
-  color: white;
-}
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .container {
+    width: 90%;
+    max-width: 400px;
+    background-color: #fff;
+    margin-top: 30px;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 20px;
+    color: #333;
+  }
+
+  textarea {
+    width: 100%;
+    height: 200px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: vertical;
+    box-sizing: border-box;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    margin-top: 10px;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  .result-box {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #fafafa;
+    border-radius: 8px;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
 </style>
-<script>
-function copyText(t){
-  navigator.clipboard.writeText(t);
-  alert("コピーしました: " + t);
-}
-</script>
 </head>
 <body>
-<h1>📘 日本語 → Python 対応表</h1>
-<a href="/">← 戻る</a>
-<table>
-<tr><th>日本語</th><th>Python</th><th>実用例</th><th>操作</th></tr>
-{{ rows | safe }}
-</table>
+  <div class="container">
+    <h1>🐍 日本語Python 実行ページ</h1>
+    <p><a href="/table">👉 対応表を見る</a></p>
+
+    <form method="post">
+      <textarea name="code">{{ code or '' }}</textarea>
+      <button type="submit">▶ 実行</button>
+    </form>
+
+    <h3>結果</h3>
+    <pre>{{ result }}</pre>
+  </div>
 </body>
 </html>
 """
@@ -368,4 +408,5 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
